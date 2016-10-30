@@ -1,0 +1,721 @@
+#!/bin/bash
+echo "Running script"
+echo "Scrubbing carriage returns"
+tr -d '\r' < LinearSim.c > LinearSimClean
+tr -d '\r' < LinearSimClean > LinearSim.c
+tr -d '\r' < Cell.c > CellClean
+tr -d '\r' < CellClean > Cell.c
+make all
+echo "Made"
+echo "Running User tests"
+echo "Running one cell for one steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S1 < /dev/null > out1.txt
+sort out1.txt -o out1.txt
+echo "Running two cells for two steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 S2 < /dev/null > out2.txt
+sort out2.txt -o out2.txt
+echo "Running three cells for three steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S3 < /dev/null > out3.txt
+sort out3.txt -o out3.txt
+echo "Running four cells for four steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C4 S4 < /dev/null > out4.txt
+sort out4.txt -o out4.txt
+echo "Running 5 cells for 5 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C5 S5 < /dev/null > out5.txt
+sort out5.txt -o out5.txt
+echo "Running 6 cells for 6 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C6 S6 L6 R1< /dev/null > out6.txt
+sort out6.txt -o out6.txt
+echo "Running 7 cells for 7 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C7 S7 L7 R1< /dev/null > out7.txt
+sort out7.txt -o out7.txt
+echo "Running 10 cells for 10 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C10 S10 L10 R1< /dev/null > out8.txt
+sort out8.txt -o out8.txt
+echo "Running 20 cells for 20 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C20 S20 L20 R1< /dev/null > out9.txt
+sort out9.txt -o out9.txt
+echo "Running 30 cells for 30 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C30 S30 L30 R1< /dev/null > out10.txt
+sort out10.txt -o out10.txt
+echo "Running 40 cells for 40 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C40 S40 L40 R1< /dev/null > out11.txt
+sort out11.txt -o out11.txt
+echo "Running 50 cells for 50 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C50 S100 L50 R1< /dev/null > out12.txt
+sort out12.txt -o out12.txt
+echo ""
+echo "Running Good Cell Tests"
+echo "Running 1 cell with L argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 L-1 < /dev/null > out13.txt
+sort out13.txt -o out13.txt
+echo "Running 1 cell with r argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 R-1 < /dev/null 1>out14.txt 2>oute14.txt 
+sort out14.txt -o out14.txt
+sort oute14.txt -o oute14.txt
+
+echo "Running bad arguments C"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out46.txt 2>oute46.txt
+sort out46.txt -o out46.txt
+sort oute46.txt -o oute46.txt
+
+echo "Running bad arguments S"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C14 S R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out47.txt 2>oute47.txt
+sort out47.txt -o out47.txt
+sort oute47.txt -o oute47.txt
+
+echo "Running 2 cells with L+R argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 L57 S5 R-1 < /dev/null > out15.txt
+sort out15.txt -o out15.txt
+echo "Running 3 cells with L+R argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 L57.33532 S5 R-1.542245 < /dev/null > out16.txt
+sort out16.txt -o out16.txt
+echo "Running 4 cells with L+R+bad arguments"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  POOP3 C4 4 X27 L57.33532 S5 R-1.542245 < /dev/null > out17.txt
+sort out17.txt -o out17.txt
+echo "Running 5 cells with L+R+bad arguments"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  POOP3 C5 4 X27 L57.33532 S5 R-1.542245 < /dev/null > out18.txt
+sort out18.txt -o out18.txt
+echo "Running N/A cells with insufficent arguments (cell)"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  POOP3 4 X27 L57.33532 S5 R-1.542245 < /dev/null 1>out19.txt 2>oute19.txt
+sort out19.txt -o out19.txt
+sort oute19.txt -o oute19.txt
+
+echo "Running 5 cells with insufficent arguments (simtime)"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  POOP3 C5 X27 L57.33532 R-1.542245 < /dev/null 1>out20.txt 2>oute20.txt
+sort oute20.txt -o oute20.txt
+sort out20.txt -o out20.txt
+echo "Running 2 cells with many extra argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S4 C6 R15 L16 R17 S9 C2 L57 S5 R-1 < /dev/null > out21.txt
+sort out21.txt -o out21.txt
+
+echo "Testing Bad Cells"
+
+ln -sf ~grade-cstaley/357/LinearSim/32Bit/CellReturnFailure Cell
+echo "Running 7 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C7 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out22.txt 2>oute22.txt
+sort out22.txt -o out22.txt
+sort oute22.txt -o oute22.txt
+echo "Running 8 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C8 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out23.txt 2>oute23.txt
+sort out23.txt -o out23.txt
+sort oute23.txt -o oute23.txt
+echo "Running 9 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C9 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out24.txt 2>oute24.txt
+sort out24.txt -o out24.txt
+sort oute24.txt -o oute24.txt
+echo "Running 10 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C10 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out25.txt 2>oute25.txt
+sort out25.txt -o out25.txt
+sort oute25.txt -o oute25.txt
+echo "Running 1 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out26.txt 2>oute26.txt
+sort out26.txt -o out26.txt
+sort oute26.txt -o oute26.txt
+echo "Running 2 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out27.txt 2>oute27.txt
+sort out27.txt -o out27.txt
+sort oute27.txt -o oute27.txt
+echo "Running 3 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out28.txt 2>oute28.txt
+sort out28.txt -o out28.txt
+sort oute28.txt -o oute28.txt
+echo "Running 4 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C4 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out29.txt 2>oute29.txt
+sort out29.txt -o out29.txt
+sort oute29.txt -o oute29.txt
+
+echo "Second bad cell"
+ln -sf ~grade-cstaley/357/LinearSim/32Bit/CellTooFewSteps Cell
+
+echo "Running 7 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C7 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out30.txt 2>oute30.txt
+sort out30.txt -o out30.txt
+sort oute30.txt -o oute30.txt
+echo "Running 8 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C8 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out31.txt 2>oute31.txt
+sort oute31.txt -o oute31.txt
+sort out31.txt -o out31.txt
+echo "Running 9 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C9 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out32.txt 2>oute32.txt
+sort out32.txt -o out32.txt
+sort oute32.txt -o oute32.txt
+echo "Running 10 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C10 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out33.txt 2>oute33.txt
+sort out33.txt -o out33.txt
+sort oute33.txt -o oute33.txt
+echo "Running 1 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out34.txt 2>oute34.txt
+sort out34.txt -o out34.txt
+sort oute34.txt -o oute34.txt
+echo "Running 2 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out35.txt 2>oute35.txt
+sort out35.txt -o out35.txt
+sort oute35.txt -o oute35.txt
+echo "Running 3 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out36.txt 2>oute36.txt
+sort out36.txt -o out36.txt
+sort oute36.txt -o oute36.txt
+echo "Running 4 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C4 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out37.txt 2>oute37.txt
+sort out37.txt -o out37.txt
+sort oute37.txt -o oute37.txt
+
+echo "Third bad cell"
+ln -sf ~grade-cstaley/357/LinearSim/32Bit/CellTooManySteps Cell
+echo "Running 7 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C7 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out38.txt 2>oute38.txt
+sort out38.txt -o out38.txt
+sort oute38.txt -o oute38.txt
+echo "Running 8 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C8 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out39.txt 2>oute39.txt
+sort out39.txt -o out39.txt
+sort oute39.txt -o oute39.txt
+echo "Running 9 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C9 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out40.txt 2>oute40.txt
+sort out40.txt -o out40.txt
+sort oute40.txt -o oute40.txt
+echo "Running 10 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C10 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out41.txt 2>oute41.txt
+sort out41.txt -o out41.txt
+sort oute41.txt -o oute41.txt
+echo "Running 1 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out42.txt 2>oute42.txt
+sort out42.txt -o out42.txt
+sort oute42.txt -o oute42.txt
+echo "Running 2 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out43.txt 2>oute43.txt
+sort out43.txt -o out43.txt
+sort oute43.txt -o oute43.txt
+echo "Running 3 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out44.txt 2>oute44.txt
+sort out44.txt -o out44.txt
+sort oute44.txt -o oute44.txt
+echo "Running 4 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C4 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>out45.txt 2>oute45.txt
+sort out45.txt -o out45.txt
+sort oute45.txt -o oute45.txt
+rm Cell
+
+
+
+
+
+echo "End User Tests"
+echo "-----------------------------------------------------"
+echo "Start instructor tests"
+cd lsimINST
+ln -sf ~grade-cstaley/357/LinearSim/32Bit/LinearSim LinearSim
+ln -sf ~grade-cstaley/357/LinearSim/32Bit/Cell Cell
+
+echo "Running one cell for one steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S1 < /dev/null > ../cout1.txt
+sort ../cout1.txt -o ../cout1.txt
+echo "Running two cells for two steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 S2 < /dev/null > ../cout2.txt
+sort ../cout2.txt -o ../cout2.txt
+echo "Running three cells for three steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S3 < /dev/null > ../cout3.txt
+sort ../cout3.txt -o ../cout3.txt
+echo "Running four cells for four steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C4 S4< /dev/null > ../cout4.txt
+sort ../cout4.txt -o ../cout4.txt
+echo "Running 5 cells for 5 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C5 S5 < /dev/null > ../cout5.txt
+sort ../cout5.txt -o ../cout5.txt
+echo "Running 6 cells for 6 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C6 S6 L6 R1< /dev/null > ../cout6.txt
+sort ../cout6.txt -o ../cout6.txt
+echo "Running 7 cells for 7 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C7 S7 L7 R1< /dev/null > ../cout7.txt
+sort ../cout7.txt -o ../cout7.txt
+echo "Running 10 cells for 10 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C10 S10 L10 R1< /dev/null > ../cout8.txt
+sort ../cout8.txt -o ../cout8.txt
+echo "Running 20 cells for 20 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C20 S20 L20 R1< /dev/null > ../cout9.txt
+sort ../cout9.txt -o ../cout9.txt
+echo "Running 30 cells for 30 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C30 S30 L30 R1< /dev/null > ../cout10.txt
+sort ../cout10.txt -o ../cout10.txt
+echo "Running 40 cells for 40 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C40 S40 L40 R1< /dev/null > ../cout11.txt
+sort ../cout11.txt -o ../cout11.txt
+echo "Running 50 cells for 50 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C50 S100 L50 R1< /dev/null > ../cout12.txt
+sort ../cout12.txt -o ../cout12.txt
+echo ""
+echo "Running  Instructor Good Cell Tests"
+echo "Running 1 cell with L argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 L-1 < /dev/null > ../cout13.txt
+sort ../cout13.txt -o ../cout13.txt
+echo "Running 1 cell with r argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 R-1 < /dev/null 1>../cout14.txt 2>../coute14.txt 
+sort ../cout14.txt -o ../cout14.txt
+sort ../coute14.txt -o ../coute14.txt
+echo "Running 2 cells with L+R argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 L57 S5 R-1 < /dev/null > ../cout15.txt
+sort ../cout15.txt -o ../cout15.txt
+echo "Running 3 cells with L+R argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 L57.33532 S5 R-1.542245 < /dev/null > ../cout16.txt
+sort ../cout16.txt -o ../cout16.txt
+echo "Running 4 cells with L+R+bad arguments"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  POOP3 C4 4 X27 L57.33532 S5 R-1.542245 < /dev/null > ../cout17.txt
+sort ../cout17.txt -o ../cout17.txt
+echo "Running 5 cells with L+R+bad arguments"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  POOP3 C5 4 X27 L57.33532 S5 R-1.542245 < /dev/null > ../cout18.txt
+sort ../cout18.txt -o ../cout18.txt
+echo "Running N/A cells with insufficent arguments (cell)"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  POOP3 4 X27 L57.33532 S5 R-1.542245 < /dev/null 1>../cout19.txt 2>../coute19.txt
+sort ../cout19.txt -o ../cout19.txt
+sort ../coute19.txt -o ../coute19.txt
+
+echo "Running bad arguments C"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout46.txt 2>../coute46.txt
+sort ../cout46.txt -o ../cout46.txt
+sort ../coute46.txt -o ../couet46.txt
+
+echo "Running bad arguments S"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C14 S R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout47.txt 2>../coute47.txt
+sort ../cout47.txt -o ../cout47.txt
+sort ../coute47.txt -o ../couet47.txt
+
+
+echo "Running 5 cells with insufficent arguments (simtime)"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  POOP3 C5 X27 L57.33532 R-1.542245 < /dev/null 1>../cout20.txt 2>../coute20.txt
+sort ../cout20.txt -o ../cout20.txt
+sort ../coute20.txt -o ../coute20.txt
+echo "Running 2 cells with many extra argument"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S4 C6 R15 L16 R17 S9 C2 L57 S5 R-1 < /dev/null > ../cout21.txt
+sort ../cout21.txt -o ../cout21.txt
+echo ""
+echo "Testing Bad Cells"
+ln -sf ~grade-cstaley/357/LinearSim/32Bit/CellReturnFailure Cell
+echo "Running 7 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C7 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout22.txt 2>../coute22.txt
+sort ../cout22.txt -o ../cout22.txt
+sort ../coute22.txt -o ../coute22.txt
+echo "Running 8 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C8 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout23.txt 2>../coute23.txt
+sort ../cout23.txt -o ../cout23.txt
+sort ../coute23.txt -o ../coute23.txt
+echo "Running 9 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C9 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout24.txt 2>../coute24.txt
+sort ../cout24.txt -o ../cout24.txt
+sort ../coute24.txt -o ../coute24.txt
+echo "Running 10 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C10 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout25.txt 2>../coute25.txt
+sort ../cout25.txt -o ../cout25.txt
+sort ../coute25.txt -o ../coute25.txt
+echo "Running 1 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout26.txt 2>../coute26.txt
+sort ../cout26.txt -o ../cout26.txt
+sort ../coute26.txt -o ../coute26.txt
+echo "Running 2 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout27.txt 2>../coute27.txt
+sort ../cout27.txt -o ../cout27.txt
+sort ../coute27.txt -o ../coute27.txt
+echo "Running 3 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout28.txt 2>../coute28.txt
+sort ../cout28.txt -o ../cout28.txt
+sort ../coute28.txt -o ../coute28.txt
+echo "Running 4 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C4 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout29.txt 2>../coute29.txt
+sort ../cout29.txt -o ../cout29.txt
+sort ../coute29.txt -o ../coute29.txt
+
+echo "Second bad cell"
+ln -sf ~grade-cstaley/357/LinearSim/32Bit/CellTooFewSteps Cell
+echo "Running 7 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C7 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout30.txt 2>../coute30.txt
+sort ../cout30.txt -o ../cout30.txt
+sort ../coute30.txt -o ../coute30.txt
+echo "Running 8 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C8 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout31.txt 2>../coute31.txt
+sort ../cout31.txt -o ../cout31.txt
+sort ../coute31.txt -o ../coute31.txt
+echo "Running 9 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C9 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout32.txt 2>../coute32.txt
+sort ../cout32.txt -o ../cout32.txt
+sort ../coute32.txt -o ../coute32.txt
+echo "Running 10 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C10 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout33.txt 2>../coute33.txt
+sort ../cout33.txt -o ../cout33.txt
+sort ../coute33.txt -o ../coute33.txt
+echo "Running 1 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout34.txt 2>../coute34.txt
+sort ../cout34.txt -o ../cout34.txt
+sort ../coute34.txt -o ../coute34.txt
+echo "Running 2 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout35.txt 2>../coute35.txt
+sort ../cout35.txt -o ../cout35.txt
+sort ../coute35.txt -o ../coute35.txt
+echo "Running 3 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout36.txt 2>../coute36.txt
+sort ../cout36.txt -o ../cout36.txt
+sort ../coute36.txt -o ../coute36.txt
+echo "Running 4 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C4 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout37.txt 2>../coute37.txt
+sort ../cout37.txt -o ../cout37.txt
+sort ../coute37.txt -o ../coute37.txt
+
+echo "Third bad cell"
+ln -sf ~grade-cstaley/357/LinearSim/32Bit/CellTooManySteps Cell
+echo "Running 7 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C7 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout38.txt 2>../coute38.txt
+sort ../cout38.txt -o ../cout38.txt
+sort ../coute38.txt -o ../coute38.txt
+echo "Running 8 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C8 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout39.txt 2>../coute39.txt
+sort ../cout39.txt -o ../cout39.txt
+sort ../coute39.txt -o ../coute39.txt
+echo "Running 9 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C9 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout40.txt 2>../coute40.txt
+sort ../cout40.txt -o ../cout40.txt
+sort ../coute40.txt -o ../coute40.txt
+echo "Running 10 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C10 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout41.txt 2>../coute41.txt
+sort ../cout41.txt -o ../cout41.txt
+sort ../coute41.txt -o ../coute41.txt
+echo "Running 1 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout42.txt 2>../coute42.txt
+sort ../cout42.txt -o ../cout42.txt
+sort ../coute42.txt -o ../coute42.txt
+echo "Running 2 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C2 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout43.txt 2>../coute43.txt
+sort ../coute43.txt -o ../coute43.txt
+sort ../cout43.txt -o ../cout43.txt
+echo "Running 3 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C3 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout44.txt 2>../coute44.txt
+sort ../coute44.txt -o ../coute44.txt
+sort ../cout44.txt -o ../cout44.txt
+echo "Running 4 cells"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C4 S5 R15 L16 R17 S9 L57 S5 R-1 < /dev/null 1>../cout45.txt 2>../coute45.txt
+sort ../cout45.txt -o ../cout45.txt
+sort ../coute45.txt -o ../couet45.txt
+
+
+
+echo ""
+echo "starting diff"
+cd ../
+
+echo "diff1 results:---------------"
+echo ""
+diff -bw -a out1.txt cout1.txt
+echo ""
+echo "end diff1---------------"
+
+echo "diff2 results:---------------"
+echo ""
+diff -bw -a out2.txt cout2.txt
+echo ""
+echo "end diff2---------------"
+
+echo "diff3 results:---------------"
+echo ""
+diff -bw -a out3.txt cout3.txt
+echo ""
+echo "end diff3---------------"
+
+echo "diff4 results:---------------"
+echo ""
+diff -bw -a out4.txt cout4.txt
+echo ""
+echo "end diff4---------------"
+echo "diff5 results:---------------"
+echo ""
+diff -bw -a out5.txt cout5.txt
+echo ""
+echo "end diff5---------------"
+
+echo "diff6 results:---------------"
+echo ""
+diff -bw -a out6.txt cout6.txt
+echo ""
+echo "end diff6---------------"
+
+echo "diff7 results:---------------"
+echo ""
+diff -bw -a out7.txt cout7.txt
+echo ""
+echo "end diff7---------------"
+
+echo "diff8 results:---------------"
+echo ""
+diff -bw -a out8.txt cout8.txt
+echo ""
+echo "end diff8---------------"
+
+echo "diff9 results:---------------"
+echo ""
+diff -bw -a out9.txt cout9.txt
+echo ""
+echo "end diff9---------------"
+
+echo "diff10 results:---------------"
+echo ""
+diff -bw -a out10.txt cout10.txt
+echo ""
+echo "end diff10---------------"
+
+echo "diff11 results:---------------"
+echo ""
+diff -bw -a out11.txt cout11.txt
+echo ""
+echo "end diff11---------------"
+echo "diff12 results:---------------"
+echo ""
+diff -bw -a out12.txt cout12.txt
+echo ""
+echo "end diff12---------------"
+echo "diff13 results:---------------"
+echo ""
+diff -bw -a out13.txt cout13.txt
+echo ""
+echo "end diff13---------------"
+echo "diff14 results:---------------"
+echo ""
+diff -bw -a out14.txt cout14.txt
+diff -bw -a oute14.txt coute14.txt
+echo ""
+echo "end diff14---------------"
+echo "diff15 results:---------------"
+echo ""
+diff -bw -a out15.txt cout15.txt
+echo ""
+echo "end diff15---------------"
+echo "diff16 results:---------------"
+echo ""
+diff -bw -a out16.txt cout16.txt
+echo ""
+echo "end diff16---------------"
+
+echo "diff17 results:---------------"
+echo ""
+diff -bw -a out17.txt cout17.txt
+echo ""
+echo "end diff17---------------"
+
+echo "diff18 results:---------------"
+echo ""
+diff -bw -a out18.txt cout18.txt
+echo ""
+echo "end diff18---------------"
+
+echo "diff19 results:---------------"
+echo ""
+diff -bw -a out19.txt cout19.txt
+diff -bw -a oute19.txt coute19.txt
+echo ""
+echo "end diff19---------------"
+
+echo "diff20 results:---------------"
+echo ""
+diff -bw -a out20.txt cout20.txt
+diff -bw -a oute20.txt coute20.txt
+echo ""
+echo "end diff20---------------"
+
+echo "diff21 results:---------------"
+echo ""
+diff -bw -a out21.txt cout21.txt
+echo ""
+echo "end diff21---------------"
+
+echo "diff22 results:---------------"
+echo ""
+diff -bw -a out22.txt cout22.txt
+diff -bw -a oute22.txt coute22.txt
+echo ""
+echo "end diff12---------------"
+
+echo "diff23 results:---------------"
+echo ""
+diff -bw -a out23.txt cout23.txt
+diff -bw -a oute23.txt coute23.txt
+echo ""
+echo "end diff23---------------"
+
+echo "diff24 results:---------------"
+echo ""
+diff -bw -a out24.txt cout24.txt
+diff -bw -a oute24.txt coute24.txt
+echo ""
+echo "end diff24---------------"
+
+echo "diff25 results:---------------"
+echo ""
+diff -bw -a out25.txt cout25.txt
+diff -bw -a oute25.txt coute25.txt
+echo ""
+echo "end diff25---------------"
+
+echo "diff26 results:---------------"
+echo ""
+diff -bw -a out26.txt cout26.txt
+diff -bw -a oute26.txt coute26.txt
+echo ""
+echo "end diff26---------------"
+
+echo "diff27 results:---------------"
+echo ""
+diff -bw -a out27.txt cout27.txt
+diff -bw -a oute27.txt coute27.txt
+echo ""
+echo "end diff27---------------"
+
+echo "diff28 results:---------------"
+echo ""
+diff -bw -a out28.txt cout28.txt
+diff -bw -a oute28.txt coute28.txt
+echo ""
+echo "end diff28---------------"
+
+echo "diff29 results:---------------"
+echo ""
+diff -bw -a out29.txt cout29.txt
+diff -bw -a oute29.txt coute29.txt
+echo ""
+echo "end diff29---------------"
+
+echo "diff30 results:---------------"
+echo ""
+diff -bw -a out30.txt cout30.txt
+diff -bw -a oute30.txt coute30.txt
+echo ""
+echo "end diff30---------------"
+
+echo "diff31 results:---------------"
+echo ""
+diff -bw -a out31.txt cout31.txt
+diff -bw -a oute31.txt coute31.txt
+echo ""
+echo "end diff31---------------"
+
+echo "diff32 results:---------------"
+echo ""
+diff -bw -a out32.txt cout32.txt
+diff -bw -a oute32.txt coute32.txt
+echo ""
+echo "end diff32---------------"
+
+echo "diff33 results:---------------"
+echo ""
+diff -bw -a out33.txt cout33.txt
+diff -bw -a oute33.txt coute33.txt
+echo ""
+echo "end diff33---------------"
+
+echo "diff34 results:---------------"
+echo ""
+diff -bw -a out34.txt cout34.txt
+diff -bw -a oute34.txt coute34.txt
+echo ""
+echo "end diff34---------------"
+
+echo "diff35 results:---------------"
+echo ""
+diff -bw -a out35.txt cout35.txt
+diff -bw -a oute35.txt coute35.txt
+echo ""
+echo "end diff35---------------"
+
+echo "diff36 results:---------------"
+echo ""
+diff -bw -a out36.txt cout36.txt
+diff -bw -a oute36.txt coute36.txt
+echo ""
+echo "end diff36---------------"
+
+echo "diff38 results:---------------"
+echo ""
+diff -bw -a out38.txt cout38.txt
+diff -bw -a oute38.txt coute38.txt
+echo ""
+echo "end diff38---------------"
+
+echo "diff39 results:---------------"
+echo ""
+diff -bw -a out39.txt cout39.txt
+diff -bw -a oute39.txt coute39.txt
+echo ""
+echo "end diff39---------------"
+
+echo "diff40 results:---------------"
+echo ""
+diff -bw -a out40.txt cout40.txt
+diff -bw -a oute40.txt coute40.txt
+echo ""
+echo "end diff40---------------"
+
+echo "diff41 results:---------------"
+echo ""
+diff -bw -a out41.txt cout41.txt
+diff -bw -a oute41.txt coute41.txt
+echo ""
+echo "end diff41---------------"
+
+echo "diff43 results:---------------"
+echo ""
+diff -bw -a out43.txt cout43.txt
+diff -bw -a oute43.txt coute43.txt
+echo ""
+echo "end diff43---------------"
+
+echo "diff44 results:---------------"
+echo ""
+diff -bw -a out44.txt cout44.txt
+diff -bw -a oute44.txt coute44.txt
+echo ""
+echo "end diff44---------------"
+
+echo "diff45 results:---------------"
+echo ""
+diff -bw -a out45.txt cout45.txt
+diff -bw -a oute45.txt coute45.txt
+echo ""
+echo "end diff45---------------"
+
+echo "diff37 results:---------------"
+echo ""
+diff -bw -a out37.txt cout37.txt
+diff -bw -a oute37.txt coute37.txt
+echo ""
+echo "end diff37---------------"
+
+echo "diff42 results:---------------"
+echo ""
+diff -bw -a out42.txt cout42.txt
+diff -bw -a oute42.txt coute42.txt
+echo ""
+echo "end diff42---------------"
+
+echo "diff46 results:---------------"
+echo ""
+diff -bw -a out46.txt cout46.txt
+diff -bw -a oute46.txt coute46.txt
+echo ""
+echo "end diff46---------------"
+
+echo "diff47 results:---------------"
+echo ""
+diff -bw -a out47.txt cout47.txt
+diff -bw -a oute47.txt coute47.txt
+echo ""
+echo "end diff47---------------"
+
+echo ""
+make all
+echo "line-length style checking"
+../lab1/a.out LinearSim.c
+../lab1/a.out Cell.c
+
+echo "testing complete! :)"
+
+ ~grade-cstaley/bin/turnin ~grade-cstaley/357/LinearSim/turnin Makefile LinearSim.c Cell.c
+echo "turned in"
+
+echo "CSstyle checking"
+java -jar CStyle.jar LinearSim.c
+java -jar CStyle.jar Cell.c

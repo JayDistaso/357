@@ -1,0 +1,21 @@
+#!/bin/bash
+echo "Running script"
+gcc Report.h Cell.c -o Cell -Wall -Werror
+gcc LinearSim.c -o LinearSim -Wall -Werror
+echo "gcc ran"
+echo "Running one cell for 2 steps"
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./LinearSim  C1 S2 L34.5 < /dev/null > out.txt
+~grade-cstaley/bin/SafeRun -o400000 -t700 -T6000 -p300 ./lsimINST/32Bit/LinearSim  C1 S2 L34.5 < /dev/null > cout.txt
+sort out.txt
+sort cout.txt
+echo "diff results:---------------"
+echo ""
+echo ""
+echo ""
+diff -bw -a out.txt cout.txt
+
+echo ""
+echo ""
+echo "end diff---------------"
+
+

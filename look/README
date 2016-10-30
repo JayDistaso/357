@@ -1,0 +1,88 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Please read entirety of README before using, as some functions have the potential
+to modify files in unintended ways, always follow best practices in backing up your work!
+
+NOTE: This program has undergone testing but the testing was by no means 100%
+comprehensive! USE AT YOUR OWN RISK
+Inputting command line arguments can lead to much undefined behavoir!
+Software is provided as-is, with no guarntee or future updates planned
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*
+* Author: Justin Distaso
+* Completed: 6/6/16
+* For CPE357 FInal Project
+*
+This program is a homemade implementation of the standard unix "look" utility
+A description of the original can be found at http://linux.die.net/man/1/look
+Relevant sections that apply to both original and this look utility are detailed below.
+
+/////////////////////////////////////////////////////////////////////////////////////////
+Name:
+look - display lines beginning with a given string
+
+Synopsis:
+look [-df] [-t termchar] string [file]
+
+Description:
+The look utility displays any lines in file which contain string as a prefix.
+As look performs a binary search, the lines in file must be sorted (where sort got the 
+same options -d and/or -f that look is invoked with).
+
+If file is not specified, the file /usr/share/dict/words is used, 
+only alphanumeric characters are compared and the case of alphabetic characters is ignored.
+
+Options:
+-d' Dictionary character set and order, i.e. only alphanumericcharacters are compared. (On by default if no file specified).
+-f' Ignore the case of alphabetic characters. (On by default if no file specified).
+
+-t' Specify a string termination character, i.e. only the characters in string up to and including the first occurrence of termchar are compared.
+
+Return Values:
+The look utility exits 0 if one or more lines were found and displayed, 1 if no lines were found, and >1 if an error occurred.
+
+Files
+/usr/share/dict/words
+the dictionary
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@@@@@@@@@@@@@@@
+How to use
+@@@@@@@@@@@@@@@
+
+Assuming you have all the files in the same directory (not including the dictionary which should be at /usr/share/dict/words)
+
+Required Files: look.c look.h Makefile
+Optional Files: runn.txt
+
+To complile $make
+
+To run fomrat like $look [-d and/or -f] [-t TERM_CHAR] string [file]
+example runs
+"$look string" Would search dictionary for lines containing as a prefix string  
+"$look -d string file" Would search file for lines starting with string, ignoring non alphanumeric chacters
+"$look -f string file" Would search file for lines starting with string, ignoring case while comparing
+"$look -t i string file" Would search file for lines starting with stri, ignoring everything after the terminating charcter (-ng)
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Using the testing script
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+!!!!!!!!!
+CAUTION:
+   Script will modify files (removing carriage returns) as well as use staley turnin utilty to handin project
+   Do not use without suitable backups
+!!!!!!!!!
+Also Included is a bash script used for testing this program with the standard unix utility.
+To use first change permisions of runn.txt so it can be executed if necessary
+then execute the file with all the Required Files in the same directory as runn.txt
+
+*********************
+How the script works
+*********************
+The script will first scrub carriage returns from look.c and look.h
+It will then run through various tests, outputting a small description of each test
+The outputs of eah run will be stored as a file
+Then the outputs will be diffed in a block, if there are differences you will see them in the diff block
+
+After testing is complete the script will upload the files to staleys turnin folder

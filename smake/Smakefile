@@ -1,0 +1,63 @@
+main : main.o other.o echo
+	gcc -o main main.o other.o
+	ls
+	cd ..
+	touch other.c
+	echo "Done!!"
+
+echo :
+	echo "Echo"
+
+test1 : stale.c echo
+	echo "should run?"
+
+stale.c : touched.c
+	echo "should NOT run"
+
+main.o : main.c
+	gcc -c main.c
+	echo "main built"
+
+other.o : other.c
+	gcc -c other.c
+	echo "other built"
+
+test : fail
+	echo "made it through!"
+
+fail :
+	gcc -o main main.o other.o
+
+rule5 :
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+	echo "5"
+
+rule6 : rule5 rule7 rule8 rule9 rule10 rule11 other.o main.o main echo main main.c other.c
+	echo "6"
+
+rule7 : 
+	echo "7"
+
+rule8 : 
+	echo "8"
+
+rule9 :
+	echo "9"
+
+rule10 :
+	echo "10"
+
+rule11 : 
+	echo "11"
+
+

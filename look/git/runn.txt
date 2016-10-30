@@ -1,0 +1,209 @@
+#!/bin/bash
+echo "Running script"
+echo "Scrubbing carriage returns"
+tr -d '\r' < look.c > lookClean
+tr -d '\r' < lookClean > look.c
+tr -d '\r' < look.h > lookCleanh
+tr -d '\r' < lookCleanh > look.h
+make
+echo "Made"
+
+echo "Running User tests"
+echo "--------------------"
+echo "Testing edge functionality with no file"
+look 10 &> lout1
+./look 10 &> out1
+
+echo "Testing edge functionality with no file"
+look zzz &> lout2
+./look zzz &> out2
+
+echo "Testing normal functionality with no file"
+look man &> lout3
+./look man &> out3
+
+echo "Testing normal functionality with no file"
+look manzu &> lout4
+./look manzu &> out4
+
+echo "Testing normal functionality with no file"
+look dak &> lout5
+./look dak &> out5
+
+echo "Testing normal functionality with no file"
+look tuv &> lout6
+./look tuv &> out6
+
+echo "Testing -t functionality with no file"
+look -t r charac &> lout7
+./look -t r charac &> out7
+
+echo "Testing -t functionality with no file"
+look -t x charac &> lout8
+./look -t x charac &> out8
+
+echo "Testing normal functionality with file"
+LC_ALL=C sort text > texts
+look b &> lout9
+./look b &> out9
+
+echo "Testing normal functionality with file"
+LC_ALL=C sort text > texts
+look BIG &> lout10
+./look BIG &> out10
+
+echo "Testing -d functionality with file"
+LC_ALL=C sort -d text > texts
+look -d _big texts &> lout11
+./look -d _big texts &> out11
+
+echo "Testing -d functionality with file"
+LC_ALL=C sort -d text > texts
+look -d big texts &> lout12
+./look -d big texts &> out12
+
+echo "Testing -f functionality with file"
+LC_ALL=C sort -f text > texts
+look -f BIG texts &> lout13
+./look -f BIG texts &> out13
+
+echo "Testing -f functionality with file"
+LC_ALL=C sort -f text > texts
+look -f bIg texts &> lout14
+./look -f bIg texts &> out14
+
+echo "Testing -f functionality with file"
+LC_ALL=C sort -f text > texts
+look -f bu texts &> lout15
+./look -f bu texts &> out15
+
+echo "Testing -f + -d functionality with file"
+LC_ALL=C sort -d -f text > texts
+look -f -d _b_u texts &> lout16
+./look -f -d _b_u texts &> out16
+
+echo "Testing -f + -d functionality with file"
+LC_ALL=C sort -d -f text > texts
+look -f -d _B_u texts &> lout17
+./look -f -d _B_u texts &> out17
+
+echo "Testing -f + -d functionality with file"
+LC_ALL=C sort -f -d text > texts
+look -f -d bi texts &> lout18
+./look -f -d bi texts &> out18
+
+echo "Testing -t functionality with file"
+LC_ALL=C sort text > texts
+look -t b big texts &> lout19
+./look -t b big texts &> out19
+
+echo "Testing -t functionality with file"
+LC_ALL=C sort text > texts
+look -t g big texts &> lout20
+./look -t g big texts &> out20
+
+echo "Testing -t functionality with file"
+LC_ALL=C sort text > texts
+look -t x big texts &> lout21
+./look -t x big texts &> out21
+
+echo "Testing -t -d functionality with file"
+LC_ALL=C sort -d text > texts
+look -d -t i b_ig texts &> lout22
+./look -d -t i b_ig texts &> out22
+
+echo "Testing -t -d functionality with file"
+LC_ALL=C sort -d text > texts
+look -d -t i bi_g texts &> lout23
+./look -d -t i bi_g texts &> out23
+
+echo "Testing -t -f functionality with file"
+LC_ALL=C sort -f text > texts
+look -f -t i BI_G texts &> lout24
+./look -f -t i BI_G texts &> out24
+
+echo "Testing -t -f functionality with file"
+LC_ALL=C sort -f text > texts
+look -f -t i bi_G texts &> lout25
+./look -f -t i bi_G texts &> out25
+
+echo "Testing -t -f -d functionality with file"
+LC_ALL=C sort -f text > texts
+look -f -d -t i bi_G texts &> lout26
+./look -f -d -t i bi_G texts &> out26
+
+echo "Testing -t -f -d functionality with file"
+LC_ALL=C sort -f text > texts
+look -f -d -t i BI_G texts &> lout27
+./look -f -d -t i BI_G texts &> out27
+
+echo "Testing bad file"
+LC_ALL=C sort -f text > texts
+look -f -t i BI_G badFile &> lout28
+./look -f -t i BI_G badFile &> out28
+
+echo "Testing string that DNE w/file"
+LC_ALL=C sort -f text > texts
+look -f KBKJMDNFLDSK_BMHF texts &> lout29
+./look -f KBKJMDNFLDSK_BMHF texts &> out29
+
+echo "Testing string that DNE w/o file"
+LC_ALL=C sort -f text > texts
+look -f KBKJMDNFLDSK_BMHF &> lout30
+./look -f KBKJMDNFLDSK_BMHF &> out30
+
+echo "Testing whole dict w/o file"
+LC_ALL=C sort -f -d text > texts
+look -f -d _ &> lout30
+./look -f -d _ &> out30
+
+echo "Testing whole dict w/ file"
+LC_ALL=C sort -f -d text > texts
+look -f -d _ texts &> lout30
+./look -f -d _ texts &> out30
+
+echo ""
+echo "starting diff process"
+
+echo "diff results:---------------"
+echo ""
+diff -bw -a out3 lout3
+diff -bw -a out4 lout4
+diff -bw -a out5 lout5
+diff -bw -a out6 lout6
+diff -bw -a out7 lout7
+diff -bw -a out8 lout8
+diff -bw -a out9 lout9
+diff -bw -a out10 lout10
+diff -bw -a out11 lout11
+diff -bw -a out12 lout12
+diff -bw -a out13 lout13
+diff -bw -a out14 lout14
+diff -bw -a out15 lout15
+diff -bw -a out16 lout16
+diff -bw -a out17 lout17
+diff -bw -a out18 lout18
+diff -bw -a out19 lout19
+diff -bw -a out20 lout20
+diff -bw -a out21 lout21
+diff -bw -a out22 lout22
+diff -bw -a out23 lout23
+diff -bw -a out24 lout24
+diff -bw -a out25 lout25
+diff -bw -a out26 lout26
+diff -bw -a out27 lout27
+diff -bw -a out28 lout28
+diff -bw -a out29 lout29
+diff -bw -a out30 lout30
+echo ""
+echo "end diff---------------"
+echo ""
+echo "remaking"
+make
+echo "done making"
+
+echo "testing complete! :)"
+
+~grade-cstaley/bin/turnin ~grade-cstaley/357/FinalProject/turnin look.c look.h Makefile README
+echo "done turning in"
+

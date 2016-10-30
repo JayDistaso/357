@@ -1,0 +1,7 @@
+Hello, world!
+0: ./b.out
+1: -verbose
+2: <
+3: /dev/null
+Writing input contents:
+44444444444444444444444444444444444444444444
